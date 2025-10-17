@@ -11,3 +11,5 @@ results/*
 notebooks/*
 models/*
 *.slurm
+old/*
+old/
