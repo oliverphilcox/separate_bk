@@ -5,4 +5,9 @@ models/*.pth
 **/__pycache__/
 *.pyc
 */*.pyc
-
+configs*
+configs/
+results/*
+notebooks/*
+models/*
+*.slurm

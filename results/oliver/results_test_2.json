@@ -1,14 +1,14 @@
 {
     "test_id": "test_2",
     "description": "log model with 1 term + cyclic symmetry",
-    "timestamp": "2025-05-02T11:17:36.312391",
-    "test_loss": 0.012968970058895517,
-    "cosine": 0.9953159847152113,
+    "timestamp": "2025-05-19T15:42:51.608437",
+    "test_loss": 0.0017288232504126923,
+    "cosine": 0.9804406025156178,
     "config": {
         "device": "cpu",
         "epochs": 100,
         "batch_size": 512,
-        "patience": 5,
+        "patience": 10,
         "model_dir": "models/oliver",
         "results_dir": "results/oliver",
         "description": "log model with 1 term + cyclic symmetry",
