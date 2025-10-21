@@ -106,9 +106,9 @@ class SepBKNN:
             return checkpoint['epoch'], checkpoint['val_loss']
         return None, None
 
-    def k_weighting(self, X):
+    def k_weighting(self, X, kpower=0):
         """Apply an appropriate k-space weighting filter. We add a factor of 1/(k1+k2+k3) to convert from 2D to 3D (relevant for the CMB). We also add a factor of k1 k2 k3 since we sample k in log-space. Finally, we apply an approximate signal-to-noise based filter."""
-        k_weight = (X[:,0]*X[:,1]*X[:,2])**0/(X[:,0]+X[:,1]+X[:,2])
+        k_weight = (X[:,0]*X[:,1]*X[:,2])**kpower/(X[:,0]+X[:,1]+X[:,2])
         if self.filterfile is not None:
             k_weight *= self.filter(X[:,0])*self.filter(X[:,1])*self.filter(X[:,2])
         return k_weight
