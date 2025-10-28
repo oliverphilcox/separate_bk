@@ -48,104 +48,26 @@ model: &model
 
 # List of experiments (will be run in serial)
 experiments:
-  ## Here is a test example of running linear and log models with different numbers of terms
+  ## Here is a test example of running linear and log models with up to 3 terms (exiting when 99.9% accuracy is reached)
 
-  n1-lin:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 1
-      log_transform: false
-    dataset_params:
-       <<: *dataset
-
-  n1-log:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 1
-      log_transform: true
-    dataset_params:
-       <<: *dataset
-
-  n2-lin:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 2
-      log_transform: false
-    dataset_params:
-       <<: *dataset
-
-  n2-log:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 2
-      log_transform: true
-    dataset_params:
-       <<: *dataset
-
-  n3-lin:
+  max3-lin:
     <<: *defaults
     description: ""
     model_params:
       <<: *model
       num_terms: 3
+      threshold: 0.999
       log_transform: false
     dataset_params:
        <<: *dataset
 
-  n3-log:
+  max3-log:
     <<: *defaults
     description: ""
     model_params:
       <<: *model
       num_terms: 3
-      log_transform: true
-    dataset_params:
-       <<: *dataset
-
-  n4-lin:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 4
-      log_transform: false
-    dataset_params:
-       <<: *dataset
-
-  n4-log:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 4
-      log_transform: true
-    dataset_params:
-       <<: *dataset
-
-  n5-lin:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 5
-      log_transform: false
-    dataset_params:
-       <<: *dataset
-
-  n5-log:
-    <<: *defaults
-    description: ""
-    model_params:
-      <<: *model
-      num_terms: 5
+      threshold: 0.999
       log_transform: true
     dataset_params:
        <<: *dataset
