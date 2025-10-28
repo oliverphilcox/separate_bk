@@ -81,6 +81,7 @@ class SeparableApproximation(nn.Module):
         self.num_terms = num_terms
         self.N_models = N_models
         self.log_transform = log_transform
+        self.sub_arch = sub_arch
         self.kpivot = kpivot
         if sub_arch=="MLP":
             self.alpha = nn.ModuleList([MLP(1, hidden_dim=64) for _ in range(num_terms)])
@@ -101,6 +102,34 @@ class SeparableApproximation(nn.Module):
         # Define symmetry
         self.symm_kind = symm_kind
         self.add_bias = add_bias
+
+    @classmethod
+    def copy_model(cls, old_model, new_num_terms=0):
+        """
+        Returns a new model instance, copying existing parameters for the old terms and randomly initializing the new ones.
+        """
+        new_model = cls(
+            num_terms=new_num_terms,
+            N_models=old_model.N_models,
+            symm_kind=old_model.symm_kind,
+            sub_arch=old_model.sub_arch,
+            log_transform=old_model.log_transform,
+            add_bias=old_model.add_bias,
+            kpivot=old_model.kpivot
+        )
+
+        # Copy previous alpha, beta, gamma, weight functions
+        for i in range(old_model.num_terms):
+            new_model.alpha[i].load_state_dict(old_model.alpha[i].state_dict())
+            if hasattr(old_model, 'beta'):
+                new_model.beta[i].load_state_dict(old_model.beta[i].state_dict())
+            if hasattr(old_model, 'gamma'):
+                new_model.gamma[i].load_state_dict(old_model.gamma[i].state_dict())
+        with torch.no_grad():
+            new_model.weights[:, :] = 0
+            new_model.weights[:old_model.num_terms, :] = old_model.weights
+            
+        return new_model
 
     def encoder(self, x):
         """Encode k to log(k/k_pivot)"""
@@ -146,8 +175,8 @@ class SeparableApproximation(nn.Module):
                 c1 = f(self.gamma[i](k1))
                 c2 = f(self.gamma[i](k2))
                 c3 = f(self.gamma[i](k3))
-                #norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))*f(self.gamma[i](self.pivot_scale))
-                return (a1*b2*c3+a1*b3*c2+a2*b1*c3+a2*b3*c1+a3*b1*c2+a3*b2*c1)/6.#/norm
+                norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))*f(self.gamma[i](self.pivot_scale))
+                return (a1*b2*c3+a1*b3*c2+a2*b1*c3+a2*b3*c1+a3*b1*c2+a3*b2*c1)/6./norm
             
             # Symmetry kind 2: assuming additional symmetry, 2 functions alpha and beta, with 3 permutations
             elif self.symm_kind==2:
@@ -157,16 +186,16 @@ class SeparableApproximation(nn.Module):
                 b1 = f(self.beta[i](k1))
                 b2 = f(self.beta[i](k2))
                 b3 = f(self.beta[i](k3))
-                #norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))**2
-                return (a1*b2*b3+a2*b1*b3+a3*b1*b2)/3.#/norm
+                norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))**2
+                return (a1*b2*b3+a2*b1*b3+a3*b1*b2)/3./norm
             
             # Symmetry kind 3: assuming full symmetry, 1 function alpha 
             elif self.symm_kind==3:
                 a1 = f(self.alpha[i](k1))
                 a2 = f(self.alpha[i](k2))
                 a3 = f(self.alpha[i](k3))
-                #norm = f(self.alpha[i](self.pivot_scale))
-                return a1*a2*a3#/norm
+                norm = f(self.alpha[i](self.pivot_scale))
+                return a1*a2*a3/norm
 
         ## Define outputs
         output = 0

@@ -54,19 +54,29 @@ class KFilter(torch.nn.Module):
         return f_interp
 
 class SepBKNN:
-    def __init__(self, num_terms, symm_kind, add_bias=False, loss_func = 'mse', sub_arch='MLP', kpivot=0.05, filterfile = None, log_transform=False, N_models=1, device=None):
+    def __init__(self, symm_kind, num_terms=0, add_bias=False, loss_func = 'mse', sub_arch='MLP', kpivot=0.05, filterfile = None, log_transform=False, N_models=1, device=None, old_model=None):
 
+        # Store attributes
         self.device = device
         self.N_models = N_models
-        self.model = SeparableApproximation(num_terms=num_terms, N_models=N_models, symm_kind=symm_kind, add_bias=add_bias, sub_arch=sub_arch, log_transform=log_transform, kpivot=kpivot).to(self.device)
-        self.optimizer = optim.AdamW(self.model.parameters(), lr=0.001, weight_decay=0.01)
-        self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, patience=10, factor=0.3)
         self.loss_func = loss_func
+        self.sub_arch=sub_arch
         self.num_terms = num_terms
         self.symm_kind = symm_kind
         self.add_bias = add_bias
         self.filterfile = filterfile
         self.kpivot = kpivot
+        self.log_transform = log_transform
+        
+        # Load in separable approximation model, optionally starting from previous version
+        if old_model is not None:
+            self.model = SeparableApproximation.copy_model(old_model, num_terms).to(self.device)
+        else:
+            self.model = SeparableApproximation(num_terms=num_terms, N_models=N_models, symm_kind=symm_kind, add_bias=add_bias, sub_arch=sub_arch, log_transform=log_transform, kpivot=kpivot)
+
+        # Define loss, optimizer and scheduler
+        self.optimizer = optim.AdamW(self.model.parameters(), lr=0.001, weight_decay=0.01)
+        self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, patience=10, factor=0.3)
         if loss_func == 'mse':
             self.criterion = nn.MSELoss()
             
@@ -207,9 +217,6 @@ class SepBKNN:
         _, best_loss = self.load_checkpoint(checkpoint_dir)
         print(f"Training completed. Best validation loss: {best_loss:.6f}")
 
-        # Print weight matrix
-        print(f"Output weight matrix: {self.model.weights}")
-        
         return train_losses, val_losses
 
     def evaluate(self, dataset, model_nos, batch_size=512):

@@ -75,19 +75,44 @@ def run_experiment(config, test_id):
         os.makedirs(results_path)
     if not os.path.exists(config['model_dir']):
         os.makedirs(config['model_dir'])
-    
-    # Define input class
-    sep_bk_nn = SepBKNN(**config['model_params'],N_models=N_models,device=config['device'])
-    
-    # Train the model over a number of epochs
-    model_nos = torch.arange(N_models)
-    print("## Training model")
-    train_losses, val_losses = sep_bk_nn.train(train_dataset, val_dataset, model_nos[:], batch_size=batch_size, epochs=config['epochs'], checkpoint_dir=intermediate_save_path, patience=config['patience'])
 
-    cosine, ratio = sep_bk_nn.get_cosine(test_dataset, dataset2=train_dataset, dataset3=val_dataset, batch_size=batch_size)
-    print('Estimated cosine is {} '.format(cosine))
-    print('Estimated ratio is {}'.format(ratio))
+    # Define model parameters
+    num_terms = config['model_params'].pop('num_terms')
+    threshold = config['model_params'].pop('threshold')
+    update_weights = config['model_params'].pop('update_weights')
     
+    model_nos = torch.arange(N_models)
+    old_model = None
+
+    # Iteratively update the number of terms in the representation
+    for this_num_terms in range(1,num_terms+1):
+
+        # Define initial class, starting from the last model (if set)
+        sep_bk_nn = SepBKNN(**config['model_params'],num_terms=this_num_terms,N_models=N_models,device=config['device'], old_model=old_model)
+        
+        # Train the model over a number of epochs
+        print("\n## Training model with %d terms"%this_num_terms)
+        train_losses, val_losses = sep_bk_nn.train(train_dataset, val_dataset, model_nos, batch_size=batch_size, epochs=config['epochs'], checkpoint_dir=intermediate_save_path, patience=config['patience'])
+
+        # Check the outputs
+        cosine, ratio = sep_bk_nn.get_cosine(test_dataset, dataset2=train_dataset, dataset3=val_dataset, batch_size=batch_size)
+        print('Estimated cosine is {} '.format(cosine))
+        print('Estimated ratio is {}'.format(ratio))
+        if np.abs(1-cosine)<np.abs(1-threshold):
+            print("\n## Threshold reached with %d terms; exiting!"%this_num_terms)
+            break
+
+        if num_terms==this_num_terms:
+            print("\n## Failed to reach threshold accuracy of %.4f with %d terms"%(threshold, this_num_terms))
+            break
+
+        # Store old model
+        if update_weights:
+            old_model = sep_bk_nn.model
+        else:
+            print("Resetting weights!")
+            old_model = None
+
     # Test the model by computing the loss on the test set
     test_loss = sep_bk_nn.test_loss(test_dataset)
     

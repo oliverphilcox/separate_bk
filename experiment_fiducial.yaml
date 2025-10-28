@@ -18,8 +18,12 @@ dataset: &dataset
   
 # Model configuration
 model: &model
-  # number of terms in separable representation
+  # maximum number of terms in separable representation
   num_terms: 1
+  # target accuracy for template
+  threshold: 0.999
+  # whether to update the weights each time we increase the number of terms or start from scratch
+  update_weights: true
   # Type of symmetry
   # 0: 1/6 [ alpha(k1) beta(k2) / alpha(k3) / beta(k3) + 5 perm.]
   # 1: 1/6 [ alpha(k1) beta(k2) gamma(k3) + 5 perm. ]
