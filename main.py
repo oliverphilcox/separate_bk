@@ -128,7 +128,7 @@ def run_experiment(config, test_id):
     }
     
     # Save the model and results
-    sep_bk_nn.save_model(model_path, NUM_TERMS, SYMM_KIND, ADD_BIAS)
+    sep_bk_nn.save_model(model_path, this_num_terms, SYMM_KIND, ADD_BIAS)
     with open(f'{results_path}.json', 'w') as f:
         json.dump(results, f, indent=4)
     

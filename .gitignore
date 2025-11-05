@@ -14,3 +14,5 @@ models/*
 *.slurm
 old/*
 old/
+disbatch/*
+disbatch/

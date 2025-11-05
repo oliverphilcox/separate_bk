@@ -175,8 +175,8 @@ class SeparableApproximation(nn.Module):
                 c1 = f(self.gamma[i](k1))
                 c2 = f(self.gamma[i](k2))
                 c3 = f(self.gamma[i](k3))
-                norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))*f(self.gamma[i](self.pivot_scale))
-                return (a1*b2*c3+a1*b3*c2+a2*b1*c3+a2*b3*c1+a3*b1*c2+a3*b2*c1)/6./norm
+                #norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))*f(self.gamma[i](self.pivot_scale))
+                return (a1*b2*c3+a1*b3*c2+a2*b1*c3+a2*b3*c1+a3*b1*c2+a3*b2*c1)/6.#/norm
             
             # Symmetry kind 2: assuming additional symmetry, 2 functions alpha and beta, with 3 permutations
             elif self.symm_kind==2:
@@ -186,16 +186,16 @@ class SeparableApproximation(nn.Module):
                 b1 = f(self.beta[i](k1))
                 b2 = f(self.beta[i](k2))
                 b3 = f(self.beta[i](k3))
-                norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))**2
-                return (a1*b2*b3+a2*b1*b3+a3*b1*b2)/3./norm
+                #norm = f(self.alpha[i](self.pivot_scale))*f(self.beta[i](self.pivot_scale))**2
+                return (a1*b2*b3+a2*b1*b3+a3*b1*b2)/3.#/norm
             
             # Symmetry kind 3: assuming full symmetry, 1 function alpha 
             elif self.symm_kind==3:
                 a1 = f(self.alpha[i](k1))
                 a2 = f(self.alpha[i](k2))
                 a3 = f(self.alpha[i](k3))
-                norm = f(self.alpha[i](self.pivot_scale))
-                return a1*a2*a3/norm
+                #norm = f(self.alpha[i](self.pivot_scale))
+                return a1*a2*a3#/norm
 
         ## Define outputs
         output = 0
