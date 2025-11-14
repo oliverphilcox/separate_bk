@@ -1,0 +1,28 @@
+{
+    "test_id": "max3-log",
+    "description": "",
+    "timestamp": "2025-11-14T16:14:20.077365",
+    "test_loss": 7.312040714170431e-05,
+    "cosine": 0.9999622106552124,
+    "ratio": 1.0002318620681763,
+    "config": {
+        "epochs": 250,
+        "batch_size": 1024,
+        "patience": 50,
+        "model_dir": "models/local",
+        "results_dir": "results/local",
+        "description": "",
+        "model_params": {
+            "symm_kind": 1,
+            "add_bias": false,
+            "log_transform": true,
+            "sub_arch": "MLP",
+            "loss_func": "inner",
+            "filterfile": "filters/planckTE_k_filtering.npy"
+        },
+        "dataset_params": {
+            "datafile": "notebook_data/planck_template_local.txt"
+        },
+        "device": "cpu"
+    }
+}
