@@ -7,14 +7,14 @@ The main code can be run on the command line as follows:
 ```
 python main.py --config experiment_fiducial.yaml
 ```
-The `.yaml` file describes the main code inputs and outputs, which are described in detail in the [example file](experiment_fiducial.yaml). Many of these parameters can also be specified on the command line. The key parameters are as follows:
+The `.yaml` file describes the main code inputs and outputs, which are described in detail in the [example file](experiment_fiducial.yaml). The key parameters are as follows:
 - `datafile`: This specifies the input datafile, which contains {k1, k2, k3, S(k1,k2,k3)}, where S is a dimensionless shape function. The input k values should span the entire range of interest.
 - `num_terms`: The maximum number of terms in the separable representation. This is typically 5 or less.
 - `threshold`: The code scans over models with increasing numbers of terms, starting from one. When the accuracy level reaches `threshold` (or `num_terms` is reached), the code will exit.
 - `symm_kind`: This specifies the type of symmetry to assume. The main options are `1` (full symmetry; 6 permutations) or `2` (cyclic symmetry; 3 permutations).
 The code will run on GPUs if available, else a single CPU. This typically takes between a few minutes and a few hours to run, depending on the complexity of the model and the size of the input dataset.
 
-In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separate-bk` inputs, and visualize the outputs. We also show how to interface the code with [PolySpec](https://github.com/oliverphilcox/PolySpec), for measure the template amplitudes from CMB datasets.
+In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separate-bk` inputs, and visualize the outputs. We also show how to interface the code with [PolySpec](https://github.com/oliverphilcox/PolySpec), for measure the template amplitudes from CMB datasets. In the [datasets](datasets/) directory, we include the shape templates used to test the code in the release paper.
 
 ### Authors
 - [Kunhao Zhong](mailto:kunhaoz@sas.upenn.edu) (Penn)
