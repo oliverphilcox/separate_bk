@@ -5,4 +5,5 @@ models/*.pth
 **/__pycache__/
 *.pyc
 */*.pyc
-
+notebook_data/*
+notebook_data
