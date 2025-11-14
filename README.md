@@ -1,6 +1,6 @@
 # separate-bk
 
-This code computes separable three-dimensional representations for arbitrary input bispectra, as discussed in [Philcox, Zhong \& Sirletti](https://arxiv.org/2511.XXXXX).  Given an input shape function, the code computes a set of neural network basis functions and weights that accurately reproduce the input spectra in a factorizable manner. This can be interfaced with CMB estimators to provide fast estimation of fNL amplitudes, such as the [PolySpec](https://github.com/oliverphilcox/PolySpec) code, as described below. 
+This code computes separable three-dimensional representations for arbitrary input bispectra, as discussed in [Philcox, Zhong \& Sirletti (2025)](https://arxiv.org/2511.XXXXX).  Given an input shape function, the code computes a set of neural network basis functions and weights that accurately reproduce the input spectra in a factorizable manner. This can be interfaced with CMB estimators to provide fast estimation of fNL amplitudes, such as the [PolySpec](https://github.com/oliverphilcox/PolySpec) code, as described below. 
 
 ### Example Usage
 The main code can be run on the command line as follows:
@@ -23,7 +23,7 @@ In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separat
 ### Dependencies
 - Python 3
 - [pytorch](https://pytorch.org/)
-- yaml
+- PyYAML
 - tqdm
 
 ### Reference
