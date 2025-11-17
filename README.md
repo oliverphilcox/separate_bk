@@ -1,4 +1,4 @@
-# separate-bk
+# separable_bk
 
 This code computes separable three-dimensional representations for arbitrary input bispectra, as discussed in [Philcox, Zhong \& Sirletti (2025)](https://arxiv.org/2511.XXXXX).  Given an input shape function, the code computes a set of neural network basis functions and weights that accurately reproduce the input spectra in a factorizable manner. This can be interfaced with CMB estimators to provide fast estimation of fNL amplitudes, such as the [PolySpec](https://github.com/oliverphilcox/PolySpec) code, as described below. 
 
@@ -14,7 +14,7 @@ The `.yaml` file describes the main code inputs and outputs, which are described
 - `symm_kind`: This specifies the type of symmetry to assume. The main options are `1` (full symmetry; 6 permutations) or `2` (cyclic symmetry; 3 permutations).
 The code will run on GPUs if available, else a single CPU. This typically takes between a few minutes and a few hours to run, depending on the complexity of the model and the size of the input dataset.
 
-In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separate-bk` inputs, and visualize the outputs. We also show how to interface the code with [PolySpec](https://github.com/oliverphilcox/PolySpec), for measure the template amplitudes from CMB datasets. In the [datasets](datasets/) directory, we include the shape templates used to test the code in the release paper.
+In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separable_bk` inputs, and visualize the outputs. We also show how to interface the code with [PolySpec](https://github.com/oliverphilcox/PolySpec), for measure the template amplitudes from CMB datasets. In the [datasets](datasets/) directory, we include the shape templates used to test the code in the release paper.
 
 ### Authors
 - [Kunhao Zhong](mailto:kunhaoz@sas.upenn.edu) (Penn)
