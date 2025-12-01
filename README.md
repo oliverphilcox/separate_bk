@@ -1,6 +1,6 @@
 # separable_bk
 
-This code computes separable three-dimensional representations for arbitrary input bispectra, as discussed in [Philcox, Zhong \& Sirletti (2025)](https://arxiv.org/2511.XXXXX).  Given an input shape function, the code computes a set of neural network basis functions and weights that accurately reproduce the input spectra in a factorizable manner. This can be interfaced with CMB estimators to provide fast estimation of fNL amplitudes, such as the [PolySpec](https://github.com/oliverphilcox/PolySpec) code, as described below. 
+This code computes separable three-dimensional representations for arbitrary input bispectra, as discussed in [Philcox, Zhong \& Sirletti (2025)](https://arxiv.org/abs/2511.19179).  Given an input shape function, the code computes a set of neural network basis functions and weights that accurately reproduce the input spectra in a factorizable manner. This can be interfaced with CMB estimators to provide fast estimation of fNL amplitudes, such as the [PolySpec](https://github.com/oliverphilcox/PolySpec) code, as described below. 
 
 ### Example Usage
 The main code can be run on the command line as follows:
@@ -28,4 +28,4 @@ In the [Usage](Usage.ipynb) notebook, we demonstrate how to compute the `separab
 - tqdm
 
 ### Reference
-- Philcox, O. H. E., Zhong, K., Sirletti, S. S., "Separating the Inseparable: Constraining Arbitrary Primordial Bispectra with Cosmic Microwave Background Data", (2025) ([arXiv](https://arxiv.org/abs/2511.XXXXX))
+- Philcox, O. H. E., Zhong, K., Sirletti, S. S., "Separating the Inseparable: Constraining Arbitrary Primordial Bispectra with Cosmic Microwave Background Data", (2025) ([arXiv](https://arxiv.org/abs/2511.19179))
