@@ -1,11 +1,12 @@
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
-models/*.pth
 models/*
-results/*
 !models/.gitkeep
+results/*
+!results/.gitkeep
 **/__pycache__/
 *.pyc
-*/*.pyc
-notebook_data/*
-notebook_data
+notebook_data/
+filters/*_extended.npy
+.DS_Store
+.claude/

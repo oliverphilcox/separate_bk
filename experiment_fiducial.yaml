@@ -42,8 +42,10 @@ model: &model
   # mse is the standard least squares loss
   # cosine is the cosine between shapes. It does not get the normalization correct
   loss_func: 'inner'
-  # Filtering function used to weight the loss function. 
-  # Below we use a filter designed to capture the main signal-to-noise in Planck 3-point function analyses 
+  # Whether to compute optimal weights analytically (true) or learn them (false)
+  optimal_weights: true
+  # Filtering function used to weight the loss function.
+  # Below we use a filter designed to capture the main signal-to-noise in Planck 3-point function analyses
   filterfile: 'filters/planckTE_k_filtering.npy'
 
 # List of experiments (will be run in serial)
